@@ -1,8 +1,11 @@
+const Sequelize = require('sequelize')
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
+const Op = Sequelize.Op
 
 const adminController = {
   getRestaurants: (req, res) => {
@@ -116,6 +119,25 @@ const adminController = {
             res.redirect('/admin/restaurants')
           })
       })
+  },
+
+  editUsers: (req, res) => {
+    return User.findAll({ where: { id: { [Op.ne]: 1 } } }).then(users => {
+      return res.render('admin/users', { users: users })
+    })
+  },
+
+  putUsers: (req, res) => {
+    return User.findByPk(req.params.id).then(user => {
+      user.update({
+        isAdmin: user.isAdmin ? false : true
+      })
+        .then(user => {
+          const identity = user.isAdmin ? 'admin' : 'user'
+          req.flash('success_messages', `${user.email} 身分已修改為 ${identity}`)
+          res.redirect('/admin/users')
+        })
+    })
   }
 }
 
