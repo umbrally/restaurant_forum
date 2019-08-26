@@ -122,7 +122,7 @@ const adminController = {
   },
 
   editUsers: (req, res) => {
-    return User.findAll({ where: { id: { [Op.ne]: 1 } } }).then(users => {
+    return User.findAll({ where: { email: { [Op.ne]: 'root@example.com' } } }).then(users => {
       return res.render('admin/users', { users: users })
     })
   },
