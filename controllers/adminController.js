@@ -6,13 +6,15 @@ const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
 const Op = Sequelize.Op
+const Category = db.Category
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return Restaurant.findAll().then(restaurants => {
+    return Restaurant.findAll({ include: [Category] }).then(restaurants => {
       return res.render('admin/restaurants', { restaurants: restaurants, user: req.user, isAuthenticated: req.isAuthenticated })
     })
   },
+
 
   createRestaurant: (req, res) => {
     return res.render('admin/create')
@@ -56,7 +58,7 @@ const adminController = {
   },
 
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id).then(restaurant => {
+    return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
       return res.render('admin/restaurant', { restaurant: restaurant })
     })
   },
