@@ -14,4 +14,21 @@
     </div>
 
   </div>
+  </br>
+  </br>
+  <div class="row border">
+    <h4 class="col-md-12 p-3 mb-3 bg-primary text-white">{{commentLength}} 已評論餐廳</h4>
+    <div class="col-md-12 row">
+      {{#each checkUser.Comments}}
+      <a href="/restaurants/{{this.Restaurant.id}}" class="col-md-2">
+        <img class=" figure-img img-fluid rounded" src="{{this.Restaurant.image}}" alt="restaurant photo">
+      </a>
+
+
+      {{/each}}
+
+    </div>
+
+
+  </div>
 </div>
