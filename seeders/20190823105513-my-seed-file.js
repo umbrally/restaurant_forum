@@ -11,24 +11,38 @@ module.exports = {
       isAdmin: true,
       name: "root",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      image: ''
     }, {
       email: 'user1@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: "user1",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      image: ''
     }, {
       email: 'user2@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: "user2",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      image: ''
     }], {});
 
-    queryInterface.bulkInsert('Restaurants',
+    queryInterface.bulkInsert('Categories',
+      ['中式料理', '日本料理', '義大利料理', '墨西哥料理', '素食料理', '美式料理', '複合式料理']
+        .map((item, index) =>
+          ({
+            id: index + 1,
+            name: item,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          })
+        ), {});
+
+    return queryInterface.bulkInsert('Restaurants',
       Array.from({ length: 50 }).map(d =>
         ({
           name: faker.name.findName(),
@@ -43,16 +57,6 @@ module.exports = {
         })
       ), {});
 
-    return queryInterface.bulkInsert('Categories',
-      ['中式料理', '日本料理', '義大利料理', '墨西哥料理', '素食料理', '美式料理', '複合式料理']
-        .map((item, index) =>
-          ({
-            id: index + 1,
-            name: item,
-            createdAt: new Date(),
-            updatedAt: new Date()
-          })
-        ), {});
   },
 
   down: (queryInterface, Sequelize) => {

@@ -21,12 +21,18 @@ const categoryController = {
       req.flash('error_messages', 'name didn\'t exist')
       return res.redirect('back')
     } else {
-      return Category.create({
-        name: req.body.name
-      })
-        .then((category) => {
-          res.redirect('/admin/categories')
+      return Category.max('id').then(categoryId => {
+        Category.create({
+          id: categoryId + 1,
+          name: req.body.name
         })
+          .then((category) => {
+            res.redirect('/admin/categories')
+          }).catch(err => { return console.log(err) })
+
+      })
+
+
     }
   },
 

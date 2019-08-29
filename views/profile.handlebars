@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <h2 class="col-md-12 border-bottom p-3">{{checkUser.name}}'s Profile</h2>
+    <div class="col-md-4">
+      <img class="img-responsive center-block rounded shadow" src="{{checkUser.image}}"
+        style="width: 300px; height: 300px;" alt="profile photo">
+    </div>
+    <div class="col-md-8">
+      <h1>{{checkUser.name}}</h1>
+      <p>{{checkUser.email}}</p>
+      {{#ifCond checkUser.id owner}}
+      <a class="btn btn-primary" href="/users/{{checkUser.id}}/edit" role="button">Edit</a>
+      {{/ifCond}}
+    </div>
+
+  </div>
+</div>
