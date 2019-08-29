@@ -53,7 +53,8 @@ module.exports = {
           description: faker.lorem.text(),
           createdAt: new Date(),
           updatedAt: new Date(),
-          CategoryId: Math.floor(Math.random() * 5) + 1
+          CategoryId: Math.floor(Math.random() * 5) + 1,
+          viewCounts: 0
         })
       ), {});
 
@@ -61,7 +62,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     queryInterface.bulkDelete('Users', null, {});
-    queryInterface.bulkDelete('Restaurants', null, {});
-    return queryInterface.bulkDelete('Categories', null, {});
+    queryInterface.bulkDelete('Categories', null, {});
+    return queryInterface.bulkDelete('Restaurants', null, {});
   }
 }
