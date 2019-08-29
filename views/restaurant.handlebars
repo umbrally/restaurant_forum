@@ -15,9 +15,11 @@
   </div>
   <div class="col-md-8">
     <p>{{restaurant.description}}</p>
+    <a class="btn btn-primary" href="/restaurants/{{restaurant.id}}/dashboard" role="button">Dashboard</a>
   </div>
   <hr>
 </div>
+
 <br /><br />
 <h3>所有評論：</h3>
 {{#each restaurant.Comments}}
