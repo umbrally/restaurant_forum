@@ -27,7 +27,8 @@ let restController = {
       // clean up restaurant data
       const data = result.rows.map(r => ({
         ...r.dataValues,
-        description: r.dataValues.description.substring(0, 50)
+        description: r.dataValues.description.substring(0, 50),
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
       }))
       Category.findAll().then(categories => {
         return res.render('restaurants', {
@@ -45,13 +46,17 @@ let restController = {
 
   getRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, {
-      include: [Category, { model: Comment, include: [User] }]
+      include: [Category,
+        { model: User, as: 'FavoritedUsers' },
+        { model: Comment, include: [User] }]
     }).then(restaurant => {
       restaurant.update({
         viewCounts: restaurant.viewCounts + 1
       })
         .then(restaurant => {
+          const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
           return res.render('restaurant', {
+            isFavorited: isFavorited,
             restaurant: restaurant
           })
         })
