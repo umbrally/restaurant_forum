@@ -8,8 +8,24 @@
     <div class="col-md-8">
       <h1>{{checkUser.name}}</h1>
       <p>{{checkUser.email}}</p>
+      <ul>
+        <li>{{checkUser.commentRestaurants.length}} 已評論餐廳</li>
+        <li>{{checkUser.FavoritedRestaurants.length}} 收藏的餐廳</li>
+        <li>{{checkUser.Followings.length}} followings (追蹤者)</li>
+        <li>{{checkUser.Followers.length}} followers (追隨者)</li>
+      </ul>
+
+
       {{#ifCond checkUser.id owner}}
       <a class="btn btn-primary" href="/users/{{checkUser.id}}/edit" role="button">Edit</a>
+      {{else}}
+      {{#if checkUser.isFollowed }}
+      <form action="/following/{{checkUser.id}}?_method=DELETE" method="POST" style="display: contents;"><button
+          type="submit" class="btn btn-danger">取消追蹤</button></form>
+      {{else}}
+      <form action="/following/{{checkUser.id}}" method="POST" style="display: contents;"><button type="submit"
+          class="btn btn-primary">追蹤</button></form>
+      {{/if}}
       {{/ifCond}}
     </div>
 
@@ -17,14 +33,48 @@
   </br>
   </br>
   <div class="row border">
-    <h4 class="col-md-12 p-3 mb-3 bg-primary text-white">{{commentLength}} 已評論餐廳</h4>
-    <div class="col-md-12 row">
-      {{#each checkUser.Comments}}
-      <a href="/restaurants/{{this.Restaurant.id}}" class="col-md-2">
-        <img class=" figure-img img-fluid rounded" src="{{this.Restaurant.image}}" alt="restaurant photo">
-      </a>
-      {{/each}}
+    <div class="col-md-6 p-1 border">
+      <h4 class=" col-md-12 p-3 mb-3 bg-primary text-white">{{checkUser.commentRestaurants.length}} 已評論餐廳</h4>
+      <div class="col-md-12 row">
+        {{#each checkUser.commentRestaurants}}
+        <a href="/restaurants/{{this.Restaurant.id}}" class="col-md-2">
+          <img class=" figure-img img-fluid rounded" src="{{this.Restaurant.image}}"
+            alt="{{this.Restaurant.name}} photo">
+        </a>
+        {{/each}}
+      </div>
     </div>
+    <div class="col-md-6 p-1 border">
+      <h4 class=" col-md-12 p-3 mb-3 bg-primary text-white">{{checkUser.FavoritedRestaurants.length}} 收藏的餐廳</h4>
+      <div class="col-md-12 row">
+        {{#each checkUser.FavoritedRestaurants}}
+        <a href="/restaurants/{{this.id}}" class="col-md-2">
+          <img class=" figure-img img-fluid rounded" src="{{this.image}}" alt="{{this.name}} photo">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="col-md-6 p-1 border">
+      <h4 class=" col-md-12 p-3 mb-3 bg-primary text-white">{{checkUser.Followings.length}} followings (追蹤者)</h4>
+      <div class="col-md-12 row">
+        {{#each checkUser.Followings}}
+        <a href="/users/{{this.id}}" class="col-md-2">
+          <img class=" figure-img img-fluid rounded" src="{{this.image}}" alt="{{this.name}} photo">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="col-md-6 p-1 border">
+      <h4 class=" col-md-12 p-3 mb-3 bg-primary text-white">{{checkUser.Followers.length}} followers (追隨者)</h4>
+      <div class="col-md-12 row">
+        {{#each checkUser.Followers}}
+        <a href="/users/{{this.id}}" class="col-md-2">
+          <img class=" figure-img img-fluid rounded" src="{{this.image}}" alt="{{this.name}} photo">
+        </a>
+        {{/each}}
+      </div>
+    </div>
+
   </div>
   <a href="javascript:history.back()">回上一頁</a>
 </div>

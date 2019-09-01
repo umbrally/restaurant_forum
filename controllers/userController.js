@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt-nodejs')
 const imgur = require('imgur-node-api')
+const sequelize = require('sequelize')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const db = require('../models')
 const User = db.User
@@ -58,10 +59,28 @@ const userController = {
 
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
-      include: { model: Comment, include: [Restaurant] }
+      include: [{ model: Comment, include: [Restaurant] },
+      { model: Restaurant, as: 'FavoritedRestaurants' },
+      { model: User, as: 'Followers' },
+      { model: User, as: 'Followings' }
+      ],
+
     }).then(user => {
-      const commentLength = user.Comments.length
-      res.render('profile', { checkUser: user, owner: req.user.id, commentLength: commentLength })
+      user.isFollowed = req.user.Followings.map(d => d.id).includes(user.id)
+      const commentRestaurantsId = []
+      user.Comments.forEach(function (comment) {
+        if (commentRestaurantsId.indexOf(comment.RestaurantId) === -1) {
+          commentRestaurantsId.push(comment.RestaurantId)
+        }
+      })
+      user.commentRestaurants = []
+      commentRestaurantsId.forEach(id => {
+        user.commentRestaurants.push(user.Comments.find(comment => {
+          return comment.RestaurantId === id
+        }))
+      })
+
+      res.render('profile', { checkUser: user, owner: req.user.id })
     })
   },
 

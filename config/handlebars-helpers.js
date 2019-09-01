@@ -9,5 +9,11 @@ module.exports = {
   },
   moment: function (a) {
     return moment(a).fromNow()
-  }
+  },
+  ifCondNot: function (a, b, options) {
+    if (a !== b) {
+      return options.fn(this)
+    }
+    return options.inverse(this)
+  },
 }
