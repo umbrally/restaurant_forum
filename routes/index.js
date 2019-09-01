@@ -29,6 +29,7 @@ module.exports = (app, passport) => {
   })
   app.get('/restaurants', authenticated, restController.getRestaurants)
   app.get('/restaurants/feeds', authenticated, restController.getFeeds)
+  app.get('/restaurants/top', authenticated, restController.getTopRestaurants)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
   app.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 
@@ -75,5 +76,7 @@ module.exports = (app, passport) => {
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
   app.post('/following/:userId', authenticated, userController.addFollowing)
   app.delete('/following/:userId', authenticated, userController.removeFollowing)
+
+
 
 }
