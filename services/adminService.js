@@ -2,17 +2,16 @@ const Sequelize = require('sequelize')
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
-const adminService = require('../../services/adminService.js')
-const db = require('../../models')
+const db = require('../models')
 const Restaurant = db.Restaurant
 const User = db.User
 const Op = Sequelize.Op
 const Category = db.Category
 
 const adminController = {
-  getRestaurants: (req, res) => {
-    adminService.getRestaurants(req, res, (data) => {
-      return res.json(data)
+  getRestaurants: (req, res, callback) => {
+    return Restaurant.findAll({ include: [Category] }).then(restaurants => {
+      callback({ restaurants: restaurants })
     })
   }
 
