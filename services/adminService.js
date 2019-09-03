@@ -31,46 +31,44 @@ const adminController = {
 
   // },
 
-  // postRestaurant: (req, res) => {
-  //   if (!req.body.name) {
-  //     req.flash('error_messages', "name didn't exist")
-  //     return res.redirect('back')
-  //   }
+  postRestaurant: (req, res, callback) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return callback({ status: 'error', message: "name didn't exist" })
+    }
 
-  //   const { file } = req // equal to const file = req.file
-  //   if (file) {
-  //     imgur.setClientID(IMGUR_CLIENT_ID);
-  //     imgur.upload(file.path, (err, img) => {
-  //       return Restaurant.create({
-  //         name: req.body.name,
-  //         tel: req.body.tel,
-  //         address: req.body.address,
-  //         opening_hours: req.body.opening_hours,
-  //         description: req.body.description,
-  //         image: file ? img.data.link : null,
-  //         CategoryId: req.body.categoryId,
-  //         viewCounts: 0
-  //       }).then((restaurant) => {
-  //         req.flash('success_messages', 'restaurant was successfully created')
-  //         return res.redirect('/admin/restaurants')
-  //       })
-  //     })
-  //   } else {
-  //     return Restaurant.create({
-  //       name: req.body.name,
-  //       tel: req.body.tel,
-  //       address: req.body.address,
-  //       opening_hours: req.body.opening_hours,
-  //       description: req.body.description,
-  //       image: null,
-  //       CategoryId: req.body.categoryId,
-  //       viewCounts: 0
-  //     }).then((restaurant) => {
-  //       req.flash('success_messages', 'restaurant was successfully created')
-  //       return res.redirect('/admin/restaurants')
-  //     })
-  //   }
-  // },
+    const { file } = req // equal to const file = req.file
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.create({
+          name: req.body.name,
+          tel: req.body.tel,
+          address: req.body.address,
+          opening_hours: req.body.opening_hours,
+          description: req.body.description,
+          image: file ? img.data.link : null,
+          CategoryId: req.body.categoryId,
+          viewCounts: 0
+        }).then((restaurant) => {
+          callback({ status: 'success', message: 'restaurant was successfully created' })
+        })
+      })
+    } else {
+      return Restaurant.create({
+        name: req.body.name,
+        tel: req.body.tel,
+        address: req.body.address,
+        opening_hours: req.body.opening_hours,
+        description: req.body.description,
+        image: null,
+        CategoryId: req.body.categoryId,
+        viewCounts: 0
+      }).then((restaurant) => {
+        callback({ status: 'success', message: 'restaurant was successfully created' })
+      })
+    }
+  },
 
   // getRestaurant: (req, res) => {
   //   return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
