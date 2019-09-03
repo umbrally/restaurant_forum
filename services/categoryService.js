@@ -16,25 +16,23 @@ const categoryController = {
     })
   },
 
-  // postCategory: (req, res) => {
-  //   if (!req.body.name) {
-  //     req.flash('error_messages', 'name didn\'t exist')
-  //     return res.redirect('back')
-  //   } else {
-  //     return Category.max('id').then(categoryId => {
-  //       Category.create({
-  //         id: categoryId + 1,
-  //         name: req.body.name
-  //       })
-  //         .then((category) => {
-  //           res.redirect('/admin/categories')
-  //         }).catch(err => { return console.log(err) })
-
-  //     })
+  postCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      return callback({ status: 'error', message: 'name didn\'t exist' })
+    } else {
+      return Category.max('id').then(categoryId => {
+        Category.create({
+          id: categoryId + 1,
+          name: req.body.name
+        })
+          .then((category) => {
+            callback({ status: 'success', message: '' })
+          }).catch(err => { return console.log(err) })
+      })
 
 
-  //   }
-  // },
+    }
+  },
 
   // putCategory: (req, res) => {
   //   if (!req.body.name) {
