@@ -14,10 +14,6 @@ const adminController = {
     adminService.getRestaurants(req, res, (data) => {
       return res.render('admin/restaurants', data)
     })
-
-    // return Restaurant.findAll({ include: [Category] }).then(restaurants => {
-    //   return res.render('admin/restaurants', { restaurants: restaurants, user: req.user, isAuthenticated: req.isAuthenticated })
-    // })
   },
 
 
@@ -72,8 +68,8 @@ const adminController = {
   },
 
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
-      return res.render('admin/restaurant', { restaurant: restaurant })
+    adminService.getRestaurant(req, res, (data) => {
+      return res.render('admin/restaurant', data)
     })
   },
 

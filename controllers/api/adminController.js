@@ -14,7 +14,7 @@ const adminController = {
     adminService.getRestaurants(req, res, (data) => {
       return res.json(data)
     })
-  }
+  },
 
 
   // createRestaurant: (req, res) => {
@@ -67,11 +67,11 @@ const adminController = {
   //   }
   // },
 
-  // getRestaurant: (req, res) => {
-  //   return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
-  //     return res.render('admin/restaurant', { restaurant: restaurant })
-  //   })
-  // },
+  getRestaurant: (req, res) => {
+    adminService.getRestaurant(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 
   // editRestaurant: (req, res) => {
   //   return Restaurant.findByPk(req.params.id).then(restaurant => {
