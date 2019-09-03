@@ -135,15 +135,15 @@ const adminController = {
   //   }
   // },
 
-  // deleteRestaurant: (req, res) => {
-  //   return Restaurant.findByPk(req.params.id)
-  //     .then((restaurant) => {
-  //       restaurant.destroy()
-  //         .then((restaurant) => {
-  //           res.redirect('/admin/restaurants')
-  //         })
-  //     })
-  // },
+  deleteRestaurant: (req, res, callback) => {
+    return Restaurant.findByPk(req.params.id)
+      .then((restaurant) => {
+        restaurant.destroy()
+          .then((restaurant) => {
+            callback({ status: 'success', message: '' })
+          })
+      })
+  }
 
   // editUsers: (req, res) => {
   //   return User.findAll({ where: { email: { [Op.ne]: 'root@example.com' } } }).then(users => {
