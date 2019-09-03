@@ -21,15 +21,11 @@ const categoryController = {
     })
   },
 
-  // deleteCategory: (req, res) => {
-  //   return Category.findByPk(req.params.id)
-  //     .then((category) => {
-  //       category.destroy()
-  //         .then((category) => {
-  //           res.redirect('/admin/categories')
-  //         })
-  //     })
-  // }
+  deleteCategory: (req, res) => {
+    categoryService.deleteCategory(req, res, (data) => {
+      return res.json(data)
+    })
+  }
 }
 
 module.exports = categoryController
