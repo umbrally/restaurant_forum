@@ -22,15 +22,6 @@ const adminController = {
   },
 
 
-  // createRestaurant: (req, res) => {
-  //   Category.findAll().then(categories => {
-  //     return res.render('admin/create', {
-  //       categories: categories
-  //     })
-  //   })
-
-  // },
-
   postRestaurant: (req, res, callback) => {
     if (!req.body.name) {
       return callback({ status: 'error', message: "name didn't exist" })
@@ -121,26 +112,27 @@ const adminController = {
             callback({ status: 'success', message: '' })
           })
       })
+  },
+
+  editUsers: (req, res, callback) => {
+    return User.findAll({ where: { email: { [Op.ne]: 'root@example.com' } } }).then(users => {
+      callback({ users: users })
+    })
+  },
+
+  putUsers: (req, res, callback) => {
+    return User.findByPk(req.params.id).then(user => {
+      user.update({
+        isAdmin: user.isAdmin ? false : true
+      })
+        .then(user => {
+          const identity = user.isAdmin ? 'admin' : 'user'
+          callback({ status: 'success', message: `${user.email} 身分已修改為 ${identity}` })
+          // req.flash('success_messages', `${user.email} 身分已修改為 ${identity}`)
+          // res.redirect('/admin/users')
+        })
+    })
   }
-
-  // editUsers: (req, res) => {
-  //   return User.findAll({ where: { email: { [Op.ne]: 'root@example.com' } } }).then(users => {
-  //     return res.render('admin/users', { users: users })
-  //   })
-  // },
-
-  // putUsers: (req, res) => {
-  //   return User.findByPk(req.params.id).then(user => {
-  //     user.update({
-  //       isAdmin: user.isAdmin ? false : true
-  //     })
-  //       .then(user => {
-  //         const identity = user.isAdmin ? 'admin' : 'user'
-  //         req.flash('success_messages', `${user.email} 身分已修改為 ${identity}`)
-  //         res.redirect('/admin/users')
-  //       })
-  //   })
-  // }
 }
 
 module.exports = adminController

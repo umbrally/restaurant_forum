@@ -17,15 +17,6 @@ const adminController = {
   },
 
 
-  // createRestaurant: (req, res) => {
-  //   Category.findAll().then(categories => {
-  //     return res.render('admin/create', {
-  //       categories: categories
-  //     })
-  //   })
-
-  // },
-
   postRestaurant: (req, res) => {
     adminService.postRestaurant(req, res, (data) => {
       return res.json(data)
@@ -38,16 +29,6 @@ const adminController = {
     })
   },
 
-  // editRestaurant: (req, res) => {
-  //   return Restaurant.findByPk(req.params.id).then(restaurant => {
-  //     Category.findAll().then(categories => {
-  //       return res.render('admin/create', {
-  //         categories: categories,
-  //         restaurant: restaurant
-  //       })
-  //     })
-  //   })
-  // },
 
   putRestaurant: (req, res) => {
     adminService.putRestaurant(req, res, (data) => {
@@ -61,24 +42,17 @@ const adminController = {
     })
   },
 
-  // editUsers: (req, res) => {
-  //   return User.findAll({ where: { email: { [Op.ne]: 'root@example.com' } } }).then(users => {
-  //     return res.render('admin/users', { users: users })
-  //   })
-  // },
+  editUsers: (req, res) => {
+    adminService.editUsers(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 
-  // putUsers: (req, res) => {
-  //   return User.findByPk(req.params.id).then(user => {
-  //     user.update({
-  //       isAdmin: user.isAdmin ? false : true
-  //     })
-  //       .then(user => {
-  //         const identity = user.isAdmin ? 'admin' : 'user'
-  //         req.flash('success_messages', `${user.email} 身分已修改為 ${identity}`)
-  //         res.redirect('/admin/users')
-  //       })
-  //   })
-  // }
+  putUsers: (req, res) => {
+    adminService.putUsers(req, res, (data) => {
+      return res.json(data)
+    })
+  }
 }
 
 module.exports = adminController

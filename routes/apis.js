@@ -20,17 +20,19 @@ const authenticatedAdmin = (req, res, next) => {
 }
 
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
-router.post('/admin/restaurants', upload.single('image'), adminController.postRestaurant)
-router.get('/admin/restaurants/:id', adminController.getRestaurant)
-router.put('/admin/restaurants/:id', upload.single('image'), adminController.putRestaurant)
-router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
+router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
+router.get('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
+router.put('/admin/restaurants/:id', authenticated, authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
+router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 
+router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)
+router.get('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.getCategories)
+router.post('/admin/categories', authenticated, authenticatedAdmin, categoryController.postCategory)
+router.put('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.putCategory)
+router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.deleteCategory)
 
-router.get('/admin/categories', categoryController.getCategories)
-router.get('/admin/categories/:id', categoryController.getCategories)
-router.post('/admin/categories', categoryController.postCategory)
-router.put('/admin/categories/:id', categoryController.putCategory)
-router.delete('/admin/categories/:id', categoryController.deleteCategory)
+router.get('/admin/users', authenticated, authenticatedAdmin, adminController.editUsers)
+router.put('/admin/users/:id', authenticated, authenticatedAdmin, adminController.putUsers)
 
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
