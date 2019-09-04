@@ -69,22 +69,6 @@ const adminController = {
     }
   },
 
-  // getRestaurant: (req, res) => {
-  //   return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
-  //     return res.render('admin/restaurant', { restaurant: restaurant })
-  //   })
-  // },
-
-  // editRestaurant: (req, res) => {
-  //   return Restaurant.findByPk(req.params.id).then(restaurant => {
-  //     Category.findAll().then(categories => {
-  //       return res.render('admin/create', {
-  //         categories: categories,
-  //         restaurant: restaurant
-  //       })
-  //     })
-  //   })
-  // },
 
   putRestaurant: (req, res, callback) => {
     if (!req.body.name) {

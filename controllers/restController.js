@@ -29,7 +29,7 @@ let restController = {
       // clean up restaurant data
       const data = result.rows.map(r => ({
         ...r.dataValues,
-        description: r.dataValues.description.substring(0, 50),
+        description: r.dataValues.description ? r.dataValues.description.substring(0, 50) : r.dataValues.description,
         isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
         isLiked: req.user.LikedRestaurants.map(d => d.id).includes(r.id)
       }))
@@ -105,13 +105,14 @@ let restController = {
         const userFavoritedRestaurants = req.user.FavoritedRestaurants
         restaurants = restaurants.map(restaurant => ({
           ...restaurant.dataValues,
-          description: restaurant.dataValues.description.substring(0, 50),
+          description: restaurant.dataValues.description ? restaurant.dataValues.description.substring(0, 50) : restaurant.dataValues.description,
           FavoritedCount: restaurant.FavoritedUsers.length,
           isFavorited: userFavoritedRestaurants.map(d => d.id).includes(restaurant.id)
         }))
         const topRestaurants = restaurants.sort((a, b) => b.FavoritedCount - a.FavoritedCount).filter(restaurant => { return restaurant.FavoritedCount > 0 }).slice(0, 10)
         return res.render('topRestaurants', { topRestaurants: topRestaurants })
       })
+      .catch(err => { console.log(err) })
 
   }
 }
