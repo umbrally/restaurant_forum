@@ -128,8 +128,7 @@ const adminController = {
         .then(user => {
           const identity = user.isAdmin ? 'admin' : 'user'
           callback({ status: 'success', message: `${user.email} 身分已修改為 ${identity}` })
-          // req.flash('success_messages', `${user.email} 身分已修改為 ${identity}`)
-          // res.redirect('/admin/users')
+
         })
     })
   }
